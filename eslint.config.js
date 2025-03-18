@@ -32,6 +32,7 @@ export default [
         },
       ],
       "simple-import-sort/exports": "error",
+      "@typescript-eslint/consistent-type-imports": "warn",
     },
   },
 ];
