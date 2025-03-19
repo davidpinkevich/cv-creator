@@ -1,15 +1,8 @@
-import { type ReactNode } from "react";
 import { Button } from "@mui/material";
 
-export function ButtonAdd({
-  children,
-  handleClick,
-  disabled,
-}: {
-  disabled?: boolean;
-  children: ReactNode;
-  handleClick: () => void;
-}) {
+import { type ButtonAddProps } from "./types";
+
+export function ButtonAdd({ children, handleClick, disabled }: ButtonAddProps) {
   return (
     <Button
       variant="contained"

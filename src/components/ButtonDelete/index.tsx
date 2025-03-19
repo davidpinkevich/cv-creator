@@ -1,14 +1,9 @@
-import { type ReactNode } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
 
-export function ButtonDelete({
-  children,
-  handleClick,
-}: {
-  children: ReactNode;
-  handleClick: () => void;
-}) {
+import { type ButtonDeleteProps } from "./types";
+
+export function ButtonDelete({ children, handleClick }: ButtonDeleteProps) {
   return (
     <Button
       variant="outlined"
