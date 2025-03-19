@@ -1,9 +1,9 @@
-import { Controller } from "react-hook-form";
+import { Controller, type FieldValues } from "react-hook-form";
 import { TextField } from "@mui/material";
 
 import { type TextInputProps } from "./types";
 
-export function TextInput({
+export function TextInput<FormValues extends FieldValues>({
   handleKeyDown,
   control,
   errors,
@@ -12,7 +12,8 @@ export function TextInput({
   variant,
   multiline,
   maxRows,
-}: TextInputProps) {
+  type = "text",
+}: TextInputProps<FormValues>) {
   return (
     <Controller
       name={name}
@@ -21,9 +22,10 @@ export function TextInput({
         <TextField
           {...field}
           label={label}
+          type={type}
           variant={variant}
           error={!!errors[name]}
-          helperText={errors[name]?.message}
+          helperText={errors[name]?.message?.toString()}
           multiline={multiline}
           maxRows={maxRows}
           onKeyDown={handleKeyDown}
