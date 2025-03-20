@@ -11,6 +11,7 @@ export function ButtonAdd({ children, handleClick, disabled }: ButtonAddProps) {
       onClick={handleClick}
       sx={{ color: "white" }}
       disabled={disabled}
+      type="submit"
     >
       {children}
     </Button>
