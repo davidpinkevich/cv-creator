@@ -1,5 +1,14 @@
-function App() {
-  return <></>;
-}
+import Paper from "@mui/material/Paper";
 
-export { App };
+import { Creator } from "./components/Creator";
+
+export function App() {
+  return (
+    <Paper
+      style={{ padding: 20, backgroundColor: "#FAFAFA" }}
+      variant="outlined"
+    >
+      <Creator />
+    </Paper>
+  );
+}
