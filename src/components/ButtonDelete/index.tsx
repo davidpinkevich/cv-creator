@@ -3,12 +3,16 @@ import { Button } from "@mui/material";
 
 import { type ButtonDeleteProps } from "./types";
 
-export function ButtonDelete({ children, handleClick }: ButtonDeleteProps) {
+export function ButtonDelete({
+  children,
+  handleClick,
+  size = "large",
+}: ButtonDeleteProps) {
   return (
     <Button
       variant="outlined"
       fullWidth
-      size="large"
+      size={size}
       startIcon={<DeleteIcon />}
       onClick={handleClick}
     >
