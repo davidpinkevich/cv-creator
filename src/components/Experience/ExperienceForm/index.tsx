@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { type SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Paper, Stack, Typography } from "@mui/material";
 
@@ -8,18 +8,14 @@ import { ButtonDelete } from "../../ButtonDelete";
 import { Checkbox } from "../../Checkbox";
 import { DatePicker } from "../../DatePicker";
 import { TextInput } from "../../TextInput";
-import { type ExperienceFormType } from "../types";
+import { type ExperienceFormProps } from "./types";
 import { validatoinShema } from "./validatoinShema";
 
 function Form({
   withAddExperienceBtn,
   addNewProject,
   deleteProject,
-}: {
-  withAddExperienceBtn: boolean;
-  addNewProject: () => void;
-  deleteProject: () => void;
-}) {
+}: ExperienceFormProps) {
   const {
     watch,
     control,
@@ -31,6 +27,8 @@ function Form({
       position: "",
       teamSize: "",
       project: "",
+      achievements: "",
+      technologies: "",
       start: undefined,
       end: undefined,
       isCurrent: false,
@@ -40,7 +38,7 @@ function Form({
 
   const isCurrent = watch("isCurrent");
 
-  const onSubmit: SubmitHandler<Omit<ExperienceFormType, "id">> = () => {
+  const onSubmit = () => {
     if (isValid) addNewProject();
   };
 
@@ -56,6 +54,9 @@ function Form({
           variant="outlined"
         >
           <Stack spacing={2} mb={2} mt={2}>
+            <Typography variant="h3" mb={2} sx={{ fontSize: "1.5rem" }}>
+              Общая информация:
+            </Typography>
             <TextInput
               name="position"
               label="Позиция"
@@ -80,6 +81,24 @@ function Form({
               errors={errors}
               control={control}
             />
+            <TextInput
+              name="achievements"
+              label="Обязанности и достижения"
+              variant="outlined"
+              multiline
+              maxRows={10}
+              errors={errors}
+              control={control}
+            />
+            <TextInput
+              name="technologies"
+              label="Технологии"
+              variant="outlined"
+              multiline
+              maxRows={10}
+              errors={errors}
+              control={control}
+            />
           </Stack>
           <Typography variant="h3" mb={2} sx={{ fontSize: "1.5rem" }}>
             Время нахождения на проекте:
@@ -88,6 +107,7 @@ function Form({
             <DatePicker
               name="start"
               label="Начало"
+              views={["year", "month"]}
               control={control}
               errors={errors}
             />
@@ -95,6 +115,7 @@ function Form({
               <DatePicker
                 name="end"
                 label="Конец"
+                views={["year", "month"]}
                 control={control}
                 errors={errors}
               />
@@ -107,7 +128,9 @@ function Form({
           </Stack>
           <ButtonDelete handleClick={deleteProject}>Удалить</ButtonDelete>
         </Paper>
-        {withAddExperienceBtn && <ButtonAdd>Добавить опыт</ButtonAdd>}
+        {withAddExperienceBtn && (
+          <ButtonAdd type="submit">Добавить опыт</ButtonAdd>
+        )}
       </form>
     </>
   );

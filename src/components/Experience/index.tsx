@@ -4,19 +4,14 @@ import { Stack, Typography } from "@mui/material";
 
 import { ButtonAdd } from "../ButtonAdd";
 import { ExperienceForm } from "./ExperienceForm";
-import { type ExperienceFormType } from "./types";
+import { type ExperienceType } from "./types";
 
 export function Experience() {
-  const [experiences, setExperiences] = useState<ExperienceFormType[]>([]);
+  const [experiences, setExperiences] = useState<ExperienceType[]>([]);
 
   const addNewProject = () => {
     const newForm = {
       id: uuidv4(),
-      position: "",
-      teamSize: "",
-      project: "",
-      start: undefined,
-      end: undefined,
     };
 
     setExperiences([...experiences, newForm]);
@@ -31,7 +26,7 @@ export function Experience() {
   return (
     <>
       <Typography variant="h2" mb={2} sx={{ fontSize: "2rem" }}>
-        Опыт
+        Опыт:
       </Typography>
       {!experiences.length && (
         <ButtonAdd handleClick={addNewProject}>Добавить опыт</ButtonAdd>
