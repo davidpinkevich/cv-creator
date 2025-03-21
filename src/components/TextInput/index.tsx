@@ -13,6 +13,7 @@ export function TextInput<FormValues extends FieldValues>({
   multiline,
   maxRows,
   type = "text",
+  size = "medium",
 }: TextInputProps<FormValues>) {
   return (
     <Controller
@@ -20,6 +21,7 @@ export function TextInput<FormValues extends FieldValues>({
       control={control}
       render={({ field }) => (
         <TextField
+          size={size}
           {...field}
           label={label}
           type={type}

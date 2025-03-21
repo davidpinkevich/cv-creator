@@ -9,5 +9,6 @@ export type TextInputProps<FormValues extends FieldValues> = {
   variant: "outlined" | "filled" | "standard";
   multiline?: boolean;
   maxRows?: number;
+  size?: "small" | "medium";
   handleKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 };
