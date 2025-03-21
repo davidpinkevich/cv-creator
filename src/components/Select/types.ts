@@ -1,11 +1,10 @@
-import { type Control } from "react-hook-form";
+import type { Control, FieldValues, Path } from "react-hook-form";
 
-import { type FormType } from "../PersonalData/types";
-
-export type SelectProps = {
-  control: Control<FormType>;
-  name: keyof FormType;
+export type SelectProps<FormValues extends FieldValues> = {
+  control: Control<FormValues>;
+  name: Path<FormValues>;
   label: string;
   value: string[];
+  size?: "small" | "medium";
   variant: "outlined" | "filled" | "standard";
 };

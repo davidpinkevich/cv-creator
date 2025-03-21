@@ -1,6 +1,7 @@
-import { Controller } from "react-hook-form";
+import { Controller, type FieldValues } from "react-hook-form";
 import {
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select as FormSelect,
@@ -8,14 +9,26 @@ import {
 
 import { type SelectProps } from "./types";
 
-export function Select({ control, label, name, variant, value }: SelectProps) {
+export function Select<FormValues extends FieldValues>({
+  control,
+  label,
+  name,
+  size = "medium",
+  variant,
+  value,
+}: SelectProps<FormValues>) {
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
-        <FormControl fullWidth>
-          <InputLabel id="select-label">{label}</InputLabel>
+      render={({ field, fieldState: { error } }) => (
+        <FormControl size={size} fullWidth error={!!error}>
+          <InputLabel
+            size={size === "small" ? "small" : "normal"}
+            id="select-label"
+          >
+            {label}
+          </InputLabel>
           <FormSelect
             {...field}
             labelId="select-label"
@@ -28,6 +41,7 @@ export function Select({ control, label, name, variant, value }: SelectProps) {
               </MenuItem>
             ))}
           </FormSelect>
+          {error && <FormHelperText>{error.message}</FormHelperText>}
         </FormControl>
       )}
     />
