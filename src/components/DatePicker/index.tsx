@@ -9,7 +9,9 @@ import "dayjs/locale/ru";
 
 export function DatePicker<FormValues extends FieldValues>({
   name,
+  size = "medium",
   label,
+  views,
   errors,
   control,
 }: DatePickerProps<FormValues>) {
@@ -24,9 +26,10 @@ export function DatePicker<FormValues extends FieldValues>({
               <Picker
                 {...field}
                 label={label}
-                views={["year", "month"]}
+                views={views}
                 slotProps={{
                   textField: {
+                    size,
                     error: !!errors[name],
                     helperText: errors[name]?.message?.toString(),
                   },

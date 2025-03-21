@@ -4,5 +4,7 @@ export type DatePickerProps<FormValues extends FieldValues> = {
   control: Control<FormValues>;
   errors: FieldErrors<FormValues>;
   label: string;
+  size?: "small" | "medium";
+  views: Array<"year" | "month">;
   name: Path<FormValues>;
 };
