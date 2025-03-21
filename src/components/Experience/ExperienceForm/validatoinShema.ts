@@ -2,13 +2,15 @@ import * as yup from "yup";
 
 export const validatoinShema = yup.object({
   isCurrent: yup.boolean(),
-  position: yup.string().required("This field is required"),
-  teamSize: yup.string().required("This field is required"),
-  project: yup.string().required("This field is required"),
-  start: yup.date().required("This field is required"),
+  position: yup.string().required("Обязательное поле"),
+  teamSize: yup.string().required("Обязательное поле"),
+  achievements: yup.string().required("Обязательное поле"),
+  technologies: yup.string().required("Обязательное поле"),
+  project: yup.string().required("Обязательное поле"),
+  start: yup.date().required("Обязательное поле"),
   end: yup.date().when("isCurrent", ([isCurrent], schema) => {
     return isCurrent
       ? schema.nullable().notRequired()
-      : schema.required("This field is required");
+      : schema.required("Обязательное поле");
   }),
 });
