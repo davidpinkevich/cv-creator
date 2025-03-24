@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Paper, Stack, Typography } from "@mui/material";
 
@@ -16,13 +17,15 @@ function Form({
   addNewProject,
   deleteProject,
 }: ExperienceFormProps) {
+  const { t } = useTranslation();
+
   const {
     watch,
     control,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    resolver: yupResolver(validatoinShema),
+    resolver: yupResolver(validatoinShema(t)),
     defaultValues: {
       position: "",
       teamSize: "",
@@ -55,18 +58,18 @@ function Form({
         >
           <Stack spacing={2} mb={2} mt={2}>
             <Typography variant="h3" mb={2} sx={{ fontSize: "1.5rem" }}>
-              Общая информация:
+              {t("experience.generalInformation")}
             </Typography>
             <TextInput
               name="position"
-              label="Позиция"
+              label={t("experience.position")}
               variant="outlined"
               errors={errors}
               control={control}
             />
             <TextInput
               name="teamSize"
-              label="Размер команды"
+              label={t("experience.teamSize")}
               variant="outlined"
               type="number"
               errors={errors}
@@ -74,7 +77,7 @@ function Form({
             />
             <TextInput
               name="project"
-              label="Описание проекта"
+              label={t("experience.description")}
               variant="outlined"
               multiline
               maxRows={10}
@@ -83,7 +86,7 @@ function Form({
             />
             <TextInput
               name="achievements"
-              label="Обязанности и достижения"
+              label={t("experience.responsibilities")}
               variant="outlined"
               multiline
               maxRows={10}
@@ -92,7 +95,7 @@ function Form({
             />
             <TextInput
               name="technologies"
-              label="Технологии"
+              label={t("experience.technologies")}
               variant="outlined"
               multiline
               maxRows={10}
@@ -101,12 +104,12 @@ function Form({
             />
           </Stack>
           <Typography variant="h3" mb={2} sx={{ fontSize: "1.5rem" }}>
-            Время нахождения на проекте:
+            {t("experience.time.title")}
           </Typography>
           <Stack spacing={2} mb={2} mt={2}>
             <DatePicker
               name="start"
-              label="Начало"
+              label={t("experience.time.start")}
               views={["year", "month"]}
               control={control}
               errors={errors}
@@ -114,7 +117,7 @@ function Form({
             {!isCurrent && (
               <DatePicker
                 name="end"
-                label="Конец"
+                label={t("experience.time.end")}
                 views={["year", "month"]}
                 control={control}
                 errors={errors}
@@ -123,13 +126,15 @@ function Form({
             <Checkbox
               name="isCurrent"
               control={control}
-              label="По текущий момент"
+              label={t("experience.time.current")}
             />
           </Stack>
-          <ButtonDelete handleClick={deleteProject}>Удалить</ButtonDelete>
+          <ButtonDelete handleClick={deleteProject}>
+            {t("experience.delete")}
+          </ButtonDelete>
         </Paper>
         {withAddExperienceBtn && (
-          <ButtonAdd type="submit">Добавить опыт</ButtonAdd>
+          <ButtonAdd type="submit">{t("experience.addExperience")}</ButtonAdd>
         )}
       </form>
     </>

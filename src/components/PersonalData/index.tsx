@@ -1,17 +1,21 @@
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Stack } from "@mui/material";
 
+import { englishLevels } from "../../constants/english-levels";
 import { Select } from "../Select";
 import { TextInput } from "../TextInput";
 import { validatoinShema } from "./validationShema";
 
 export function PersonalData() {
+  const { t } = useTranslation();
+
   const {
     control,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(validatoinShema),
+    resolver: yupResolver(validatoinShema(t)),
     defaultValues: {
       firstName: "",
       secondName: "",
@@ -35,7 +39,7 @@ export function PersonalData() {
       <Stack spacing={2} mb={2}>
         <TextInput
           name="firstName"
-          label="Имя"
+          label={t("personal.name")}
           variant="outlined"
           errors={errors}
           control={control}
@@ -43,7 +47,7 @@ export function PersonalData() {
         />
         <TextInput
           name="secondName"
-          label="Фамилия"
+          label={t("personal.secondName")}
           variant="outlined"
           errors={errors}
           control={control}
@@ -51,7 +55,7 @@ export function PersonalData() {
         />
         <TextInput
           name="position"
-          label="Позиция"
+          label={t("personal.position")}
           variant="outlined"
           errors={errors}
           control={control}
@@ -59,21 +63,21 @@ export function PersonalData() {
         />
         <Select
           name="level"
-          label="Уровень английского"
+          label={t("personal.level")}
           variant="outlined"
           control={control}
-          value={["A1", "A2", "B1", "B2", "C1", "C3"]}
+          value={englishLevels}
         />
         <TextInput
           name="education"
-          label="Образование"
+          label={t("personal.education")}
           variant="outlined"
           errors={errors}
           control={control}
         />
         <TextInput
           name="about"
-          label="О разработчике"
+          label={t("personal.about")}
           variant="outlined"
           errors={errors}
           control={control}

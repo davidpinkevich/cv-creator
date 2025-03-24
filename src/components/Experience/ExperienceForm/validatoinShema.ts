@@ -1,16 +1,20 @@
+import { type UseTranslationResponse } from "react-i18next";
 import * as yup from "yup";
 
-export const validatoinShema = yup.object({
-  isCurrent: yup.boolean(),
-  position: yup.string().required("Обязательное поле"),
-  teamSize: yup.string().required("Обязательное поле"),
-  achievements: yup.string().required("Обязательное поле"),
-  technologies: yup.string().required("Обязательное поле"),
-  project: yup.string().required("Обязательное поле"),
-  start: yup.date().required("Обязательное поле"),
-  end: yup.date().when("isCurrent", ([isCurrent], schema) => {
-    return isCurrent
-      ? schema.nullable().notRequired()
-      : schema.required("Обязательное поле");
-  }),
-});
+type TFunction = UseTranslationResponse<"translation", undefined>["t"];
+
+export const validatoinShema = (t: TFunction) =>
+  yup.object({
+    isCurrent: yup.boolean(),
+    position: yup.string().required(t("valiadation.required")),
+    teamSize: yup.string().required(t("valiadation.required")),
+    achievements: yup.string().required(t("valiadation.required")),
+    technologies: yup.string().required(t("valiadation.required")),
+    project: yup.string().required(t("valiadation.required")),
+    start: yup.date().required(t("valiadation.required")),
+    end: yup.date().when("isCurrent", ([isCurrent], schema) => {
+      return isCurrent
+        ? schema.nullable().notRequired()
+        : schema.required(t("valiadation.required"));
+    }),
+  });

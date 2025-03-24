@@ -2,6 +2,8 @@ import Paper from "@mui/material/Paper";
 
 import { Creator } from "./components/Creator";
 
+import "./i18n.js";
+
 export function App() {
   return (
     <Paper

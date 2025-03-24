@@ -1,0 +1,49 @@
+{
+  "personal": {
+    "title": "Личная информация:",
+    "name": "Имя",
+    "secondName": "Фамилия",
+    "position": "Позиция",
+    "level": "Уровень английского",
+    "education": "Образование",
+    "about": "О разработчике"
+  },
+  "valiadation": {
+    "required": "Обязательное поле",
+    "lengthThreeItems": "Длина не менее 3 символов",
+    "firstLetterUpper": "Первая буква заглавная и 2 строчные"
+  },
+  "experience": {
+    "title": "Опыт:",
+    "addExperience": "Добавить опыт",
+    "generalInformation": "Общая информация",
+    "position": "Позиция",
+    "teamSize": "Размер команды",
+    "description": "Описание проекта",
+    "responsibilities": "Обязанности и достижения",
+    "technologies": "Технологии",
+    "delete": "Удалить",
+    "time": {
+      "title": "Время нахождения на проекте:",
+      "start": "Начало",
+      "end": "Конец",
+      "current": "По текущий момент"
+    }
+  },
+  "skills": {
+    "title": "Навыки:",
+    "level": {
+      "label": "Уровень",
+      "advanced": "Продвинутый",
+      "medium": "Средний"
+    },
+    "groups": "Группа навыков",
+    "skill": "Навык",
+    "experienceYears": "Опыт, в годах",
+    "year": "Последний год использования",
+    "groupUnderAvatar": "Группа",
+    "delete": "Удалить",
+    "addSkill": "Добавить навык"
+  },
+  "x": "Операц"
+}

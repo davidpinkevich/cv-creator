@@ -1,9 +1,13 @@
 import { memo } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Paper, Stack } from "@mui/material";
 
+import { skillGroupsEn, skillsEn } from "../../../constants/skill-groups-en";
+import { skillGroupsRu, skillsRu } from "../../../constants/skill-groups-ru";
+import { useTranslateSelects } from "../../../hooks/useTranslateSelects";
 import { Autocomplete } from "../../Autocomplete";
 import { ButtonAdd } from "../../ButtonAdd";
 import { ButtonDelete } from "../../ButtonDelete";
@@ -13,29 +17,32 @@ import { TextInput } from "../../TextInput";
 import { type SkillFormProps } from "./types";
 import { validatoinShema } from "./validatoinShema";
 
-function Form({
-  skillGroups,
-  withAddSkillBtn,
-  addNewSkill,
-  deleteSkill,
-}: SkillFormProps) {
+function Form({ withAddSkillBtn, addNewSkill, deleteSkill }: SkillFormProps) {
+  const { t, i18n } = useTranslation();
+
+  const skillGroups = i18n.language === "ru" ? skillGroupsRu : skillGroupsEn;
+  const skills = i18n.language === "ru" ? skillsRu : skillsEn;
+
   const {
     watch,
     control,
+    setValue,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    resolver: yupResolver(validatoinShema),
+    resolver: yupResolver(validatoinShema(t)),
     defaultValues: {
       groups: "",
       skill: "",
-      level: "Продвинутый",
+      level: t("skills.level.advanced"),
       experienceYears: "",
       groupUnderAvatar: "",
       year: dayjs(),
     },
     mode: "onSubmit",
   });
+
+  useTranslateSelects({ watch, setValue });
 
   const onSubmit = () => {
     if (isValid) addNewSkill();
@@ -58,24 +65,21 @@ function Form({
                 <Select
                   name="groups"
                   size="small"
-                  label="Группа навыков"
+                  label={t("skills.groups")}
                   variant="outlined"
                   control={control}
-                  value={Object.keys(skillGroups)}
+                  value={skillGroups.groups}
                 />
               </Box>
               <Box sx={{ width: "35%" }}>
                 <Autocomplete
                   name="skill"
                   control={control}
-                  label="Навык"
+                  label={t("skills.skill")}
                   options={
                     watch("groups")
-                      ? skillGroups[watch("groups")]
-                      : Object.keys(skillGroups).reduce<string[]>(
-                          (acc, key) => [...acc, ...skillGroups[key]],
-                          []
-                        )
+                      ? skills[watch("groups") as keyof typeof skills]
+                      : Object.values(skills).flat()
                   }
                 />
               </Box>
@@ -85,17 +89,17 @@ function Form({
                 <Select
                   name="level"
                   size="small"
-                  label="Уровень"
+                  label={t("skills.level.label")}
                   variant="outlined"
                   control={control}
-                  value={["Средний", "Продвинутый"]}
+                  value={[t("skills.level.medium"), t("skills.level.advanced")]}
                 />
               </Box>
               <Box sx={{ width: "20%" }}>
                 <TextInput
                   name="experienceYears"
                   size="small"
-                  label="Опыт, в годах"
+                  label={t("skills.experienceYears")}
                   variant="outlined"
                   type="number"
                   errors={errors}
@@ -108,7 +112,7 @@ function Form({
                   errors={errors}
                   views={["year"]}
                   size="small"
-                  label="Последний год"
+                  label={t("skills.year")}
                   name="year"
                 />
               </Box>
@@ -116,7 +120,7 @@ function Form({
                 <TextInput
                   name="groupUnderAvatar"
                   size="small"
-                  label="Группа"
+                  label={t("skills.groupUnderAvatar")}
                   variant="outlined"
                   type="number"
                   errors={errors}
@@ -126,11 +130,11 @@ function Form({
             </Stack>
             <Stack direction="row" spacing={2} mb={2} mt={2}>
               <ButtonDelete size="medium" handleClick={deleteSkill}>
-                Удалить
+                {t("skills.delete")}
               </ButtonDelete>
               {withAddSkillBtn && (
                 <ButtonAdd size="medium" type="submit">
-                  Добавить новый
+                  {t("skills.addSkill")}
                 </ButtonAdd>
               )}
             </Stack>

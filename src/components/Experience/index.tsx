@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 import { Stack, Typography } from "@mui/material";
 
@@ -7,6 +8,8 @@ import { ExperienceForm } from "./ExperienceForm";
 import { type ExperienceType } from "./types";
 
 export function Experience() {
+  const { t } = useTranslation();
+
   const [experiences, setExperiences] = useState<ExperienceType[]>([]);
 
   const addNewProject = () => {
@@ -26,10 +29,12 @@ export function Experience() {
   return (
     <>
       <Typography variant="h2" mb={2} sx={{ fontSize: "2rem" }}>
-        Опыт:
+        {t("experience.title")}
       </Typography>
       {!experiences.length && (
-        <ButtonAdd handleClick={addNewProject}>Добавить опыт</ButtonAdd>
+        <ButtonAdd handleClick={addNewProject}>
+          {t("experience.addExperience")}
+        </ButtonAdd>
       )}
       <Stack spacing={2} mb={2}>
         {experiences.map(({ id }) => {

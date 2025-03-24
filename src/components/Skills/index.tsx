@@ -1,13 +1,15 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 import { Stack, Typography } from "@mui/material";
 
 import { SkillForm } from "./SkillForm";
-import type { SkillGroupsTypes } from "./types";
 import { type SkillsType } from "./types";
 
-export function Skills({ skillGroups }: { skillGroups: SkillGroupsTypes }) {
+export function Skills() {
   const [skills, setSkills] = useState<SkillsType[]>([{ id: uuidv4() }]);
+
+  const { t } = useTranslation();
 
   const addNewSkill = () => {
     const newForm = {
@@ -26,7 +28,7 @@ export function Skills({ skillGroups }: { skillGroups: SkillGroupsTypes }) {
   return (
     <>
       <Typography variant="h2" mb={2} sx={{ fontSize: "2rem" }}>
-        Навыки:
+        {t("skills.title")}
       </Typography>
       <Stack spacing={2} mb={2}>
         {skills.map(({ id }) => {
@@ -34,7 +36,6 @@ export function Skills({ skillGroups }: { skillGroups: SkillGroupsTypes }) {
             <SkillForm
               key={id}
               withAddSkillBtn={id === skills[skills.length - 1].id}
-              skillGroups={skillGroups}
               addNewSkill={addNewSkill}
               deleteSkill={deleteSkill(id)}
             />

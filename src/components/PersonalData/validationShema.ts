@@ -1,24 +1,25 @@
+import { type UseTranslationResponse } from "react-i18next";
 import * as yup from "yup";
 
-export const validatoinShema = yup.object({
-  firstName: yup
-    .string()
-    .required("Обязательное поле")
-    .min(3, "The string must be exactly 3 characters long")
-    .matches(
-      /^[A-Z][a-z]{2}/,
-      "The first letter must be uppercase, followed by two lowercase letters"
-    ),
-  secondName: yup
-    .string()
-    .required("Обязательное поле")
-    .min(3, "The string must be exactly 3 characters long")
-    .matches(
-      /^[A-Z][a-z]{2}/,
-      "The first letter must be uppercase, followed by two lowercase letters"
-    ),
-  position: yup.string().required("Обязательное поле"),
-  about: yup.string().required("Обязательное поле"),
-  level: yup.string().required("Обязательное поле"),
-  education: yup.string().required("Обязательное поле"),
-});
+type TFunction = UseTranslationResponse<"translation", undefined>["t"];
+
+export const validatoinShema = (t: TFunction) =>
+  yup.object({
+    firstName: yup
+      .string()
+      .required(t("valiadation.required"))
+      .min(3, t("valiadation.lengthThreeItems"))
+      .matches(
+        /^[A-Z][a-z]{2}/,
+        "The first letter must be uppercase, followed by two lowercase letters"
+      ),
+    secondName: yup
+      .string()
+      .required(t("valiadation.required"))
+      .min(3, t("valiadation.lengthThreeItems"))
+      .matches(/^[A-Z][a-z]{2}/, t("valiadation.firstLetterUpper")),
+    position: yup.string().required(t("valiadation.required")),
+    about: yup.string().required(t("valiadation.required")),
+    level: yup.string().required(t("valiadation.required")),
+    education: yup.string().required(t("valiadation.required")),
+  });

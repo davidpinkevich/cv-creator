@@ -1,4 +1,4 @@
-export const skillGroups = {
+export const skillsRu = {
   "Операционные системы": ["Windows", "macOS", "Linux", "iOS", "Android"],
   "Языки программирования": [
     "JavaScript",
@@ -27,4 +27,16 @@ export const skillGroups = {
   "Среды разработки": ["Visual Studio Code", "WebStorm"],
   Tестирование: ["Jest", "Cypress", "React Testing Library"],
   "Системы контроля версий": ["Git"],
+};
+
+export const skillGroupsRu = {
+  groups: [
+    "Операционные системы",
+    "Языки программирования",
+    "Фреймворки и библиотеки",
+    "Технологии программирования",
+    "Среды разработки",
+    "Tестирование",
+    "Системы контроля версий",
+  ],
 };

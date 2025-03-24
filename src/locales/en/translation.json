@@ -1,0 +1,49 @@
+{
+  "personal": {
+    "title": "Personal information:",
+    "name": "First name",
+    "secondName": "Second name",
+    "position": "Position",
+    "level": "English level",
+    "education": "Education",
+    "about": "About the developer"
+  },
+  "valiadation": {
+    "required": "Required field",
+    "lengthThreeItems": "The string must be exactly 3 characters long",
+    "firstLetterUpper": "The first letter must be uppercase, followed by two lowercase letters"
+  },
+  "experience": {
+    "title": "Experience:",
+    "addExperience": "Add experience",
+    "generalInformation": "General information",
+    "position": "Position",
+    "teamSize": "Team size",
+    "description": "Project Description",
+    "responsibilities": "Responsibilities and achievements",
+    "technologies": "Technologies",
+    "delete": "Delete",
+    "time": {
+      "title": "Time spent on the project:",
+      "start": "Start",
+      "end": "End",
+      "current": "Currently"
+    }
+  },
+  "skills": {
+    "title": "Skills:",
+    "level": {
+      "label": "Level",
+      "advanced": "Advanced",
+      "medium": "Medium"
+    },
+    "groups": "Skill group",
+    "skill": "Skill",
+    "experienceYears": "Experience, in years",
+    "year": "Last year of use",
+    "groupUnderAvatar": "Group",
+    "delete": "Delete",
+    "addSkill": "Add a skill",
+    "x": "Не операц"
+  }
+}
