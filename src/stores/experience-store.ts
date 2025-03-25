@@ -7,15 +7,15 @@ type ExperienceStoreType = {
 };
 
 class ExperienceStore {
-  data: ExperienceStoreType = {};
+  dataExperience: ExperienceStoreType = {};
 
   constructor() {
     makeAutoObservable(this);
   }
 
   updateExperience = (obj: ExperienceType, key: string) => {
-    this.data[key] = obj;
+    this.dataExperience[key] = obj;
   };
 }
 
-export const experienceData = new ExperienceStore();
+export const experienceDataStore = new ExperienceStore();

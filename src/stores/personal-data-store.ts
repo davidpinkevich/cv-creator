@@ -3,15 +3,15 @@ import { makeAutoObservable } from "mobx";
 import { type PersonalDataFormType } from "../components/PersonalData/types";
 
 class PersonalDataStore {
-  data: PersonalDataFormType = {} as PersonalDataFormType;
+  personalData: PersonalDataFormType = {} as PersonalDataFormType;
 
   constructor() {
     makeAutoObservable(this);
   }
 
   updatePersonalData = (value: PersonalDataFormType) => {
-    this.data = { ...value };
+    this.personalData = { ...value };
   };
 }
 
-export const personalData = new PersonalDataStore();
+export const personalDataStore = new PersonalDataStore();

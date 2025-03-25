@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Paper, Stack, Typography } from "@mui/material";
 
-import { experienceData } from "../../../stores/experience-store";
+import { experienceDataStore } from "../../../stores/experience-store";
 import { ButtonAdd } from "../../ButtonAdd";
 import { ButtonDelete } from "../../ButtonDelete";
 import { Checkbox } from "../../Checkbox";
@@ -20,7 +20,7 @@ function Form({
   deleteProject,
 }: ExperienceFormProps) {
   const { t } = useTranslation();
-  const { updateExperience } = experienceData;
+  const { updateExperience } = experienceDataStore;
 
   const {
     watch,

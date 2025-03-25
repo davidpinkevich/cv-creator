@@ -7,15 +7,15 @@ type ExperienceStoreType = {
 };
 
 class SkillsStore {
-  data: ExperienceStoreType = {};
+  dataSkills: ExperienceStoreType = {};
 
   constructor() {
     makeAutoObservable(this);
   }
 
   updateSkills = (obj: SkillsType, key: string) => {
-    this.data[key] = obj;
+    this.dataSkills[key] = obj;
   };
 }
 
-export const skillsData = new SkillsStore();
+export const skillsDataStore = new SkillsStore();

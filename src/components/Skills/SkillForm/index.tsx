@@ -8,7 +8,7 @@ import { Box, Paper, Stack } from "@mui/material";
 import { skillGroupsEn, skillsEn } from "../../../constants/skill-groups-en";
 import { skillGroupsRu, skillsRu } from "../../../constants/skill-groups-ru";
 import { useTranslateSelects } from "../../../hooks/useTranslateSelects";
-import { skillsData } from "../../../stores/skills-store";
+import { skillsDataStore } from "../../../stores/skills-store";
 import { Autocomplete } from "../../Autocomplete";
 import { ButtonAdd } from "../../ButtonAdd";
 import { ButtonDelete } from "../../ButtonDelete";
@@ -26,7 +26,7 @@ function Form({
 }: SkillFormProps) {
   const { t, i18n } = useTranslation();
 
-  const { updateSkills } = skillsData;
+  const { updateSkills } = skillsDataStore;
 
   const skillGroups = i18n.language === "ru" ? skillGroupsRu : skillGroupsEn;
   const skills = i18n.language === "ru" ? skillsRu : skillsEn;

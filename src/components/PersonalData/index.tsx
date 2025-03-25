@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Stack } from "@mui/material";
 
 import { englishLevels } from "../../constants/english-levels";
-import { personalData } from "../../stores/personal-data-store";
+import { personalDataStore } from "../../stores/personal-data-store";
 import { Select } from "../Select";
 import { TextInput } from "../TextInput";
 import { validatoinShema } from "./validationShema";
@@ -13,7 +13,7 @@ import { validatoinShema } from "./validationShema";
 export const PersonalData = () => {
   const { t } = useTranslation();
 
-  const { updatePersonalData } = personalData;
+  const { updatePersonalData } = personalDataStore;
 
   const {
     watch,
