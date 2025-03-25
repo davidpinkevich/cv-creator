@@ -4,10 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import { Stack, Typography } from "@mui/material";
 
 import { SkillForm } from "./SkillForm";
-import { type SkillsType } from "./types";
 
 export function Skills() {
-  const [skills, setSkills] = useState<SkillsType[]>([{ id: uuidv4() }]);
+  const [skills, setSkills] = useState<{ id: string }[]>([{ id: uuidv4() }]);
 
   const { t } = useTranslation();
 
@@ -35,6 +34,7 @@ export function Skills() {
           return (
             <SkillForm
               key={id}
+              id={id}
               withAddSkillBtn={id === skills[skills.length - 1].id}
               addNewSkill={addNewSkill}
               deleteSkill={deleteSkill(id)}

@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { observer } from "mobx-react-lite";
 import { v4 as uuidv4 } from "uuid";
 import { Stack, Typography } from "@mui/material";
 
 import { ButtonAdd } from "../ButtonAdd";
 import { ExperienceForm } from "./ExperienceForm";
-import { type ExperienceType } from "./types";
 
-export function Experience() {
+export const Experience = observer(() => {
   const { t } = useTranslation();
 
-  const [experiences, setExperiences] = useState<ExperienceType[]>([]);
+  const [experiences, setExperiences] = useState<{ id: string }[]>([]);
 
   const addNewProject = () => {
     const newForm = {
@@ -41,6 +41,7 @@ export function Experience() {
           return (
             <ExperienceForm
               key={id}
+              id={id}
               withAddExperienceBtn={
                 id === experiences[experiences.length - 1].id
               }
@@ -52,4 +53,4 @@ export function Experience() {
       </Stack>
     </>
   );
-}
+});

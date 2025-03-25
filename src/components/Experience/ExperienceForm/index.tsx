@@ -1,9 +1,10 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Paper, Stack, Typography } from "@mui/material";
 
+import { experienceData } from "../../../stores/experience-store";
 import { ButtonAdd } from "../../ButtonAdd";
 import { ButtonDelete } from "../../ButtonDelete";
 import { Checkbox } from "../../Checkbox";
@@ -13,11 +14,13 @@ import { type ExperienceFormProps } from "./types";
 import { validatoinShema } from "./validatoinShema";
 
 function Form({
+  id,
   withAddExperienceBtn,
   addNewProject,
   deleteProject,
 }: ExperienceFormProps) {
   const { t } = useTranslation();
+  const { updateExperience } = experienceData;
 
   const {
     watch,
@@ -40,6 +43,10 @@ function Form({
   });
 
   const isCurrent = watch("isCurrent");
+
+  useEffect(() => {
+    updateExperience(watch(), id);
+  }, [watch(), id]);
 
   const onSubmit = () => {
     if (isValid) addNewProject();
@@ -140,5 +147,4 @@ function Form({
     </>
   );
 }
-
 export const ExperienceForm = memo(Form);

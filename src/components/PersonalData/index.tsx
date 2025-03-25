@@ -1,17 +1,22 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Stack } from "@mui/material";
 
 import { englishLevels } from "../../constants/english-levels";
+import { personalData } from "../../stores/personal-data-store";
 import { Select } from "../Select";
 import { TextInput } from "../TextInput";
 import { validatoinShema } from "./validationShema";
 
-export function PersonalData() {
+export const PersonalData = () => {
   const { t } = useTranslation();
 
+  const { updatePersonalData } = personalData;
+
   const {
+    watch,
     control,
     formState: { errors },
   } = useForm({
@@ -26,6 +31,10 @@ export function PersonalData() {
     },
     mode: "onTouched",
   });
+
+  useEffect(() => {
+    updatePersonalData(watch());
+  }, [watch()]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const char = event.key;
@@ -87,4 +96,4 @@ export function PersonalData() {
       </Stack>
     </form>
   );
-}
+};

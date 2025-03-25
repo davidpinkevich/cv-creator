@@ -1,4 +1,4 @@
-export type FormType = {
+export type PersonalDataFormType = {
   firstName: string;
   secondName: string;
   position: string;

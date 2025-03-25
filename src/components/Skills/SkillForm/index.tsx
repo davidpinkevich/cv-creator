@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
@@ -8,6 +8,7 @@ import { Box, Paper, Stack } from "@mui/material";
 import { skillGroupsEn, skillsEn } from "../../../constants/skill-groups-en";
 import { skillGroupsRu, skillsRu } from "../../../constants/skill-groups-ru";
 import { useTranslateSelects } from "../../../hooks/useTranslateSelects";
+import { skillsData } from "../../../stores/skills-store";
 import { Autocomplete } from "../../Autocomplete";
 import { ButtonAdd } from "../../ButtonAdd";
 import { ButtonDelete } from "../../ButtonDelete";
@@ -17,8 +18,15 @@ import { TextInput } from "../../TextInput";
 import { type SkillFormProps } from "./types";
 import { validatoinShema } from "./validatoinShema";
 
-function Form({ withAddSkillBtn, addNewSkill, deleteSkill }: SkillFormProps) {
+function Form({
+  id,
+  withAddSkillBtn,
+  addNewSkill,
+  deleteSkill,
+}: SkillFormProps) {
   const { t, i18n } = useTranslation();
+
+  const { updateSkills } = skillsData;
 
   const skillGroups = i18n.language === "ru" ? skillGroupsRu : skillGroupsEn;
   const skills = i18n.language === "ru" ? skillsRu : skillsEn;
@@ -43,6 +51,10 @@ function Form({ withAddSkillBtn, addNewSkill, deleteSkill }: SkillFormProps) {
   });
 
   useTranslateSelects({ watch, setValue });
+
+  useEffect(() => {
+    updateSkills(watch(), id);
+  }, [watch(), id]);
 
   const onSubmit = () => {
     if (isValid) addNewSkill();
