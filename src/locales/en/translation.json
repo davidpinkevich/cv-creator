@@ -6,7 +6,8 @@
     "position": "Position",
     "level": "English level",
     "education": "Education",
-    "about": "About the developer"
+    "about": "About the developer",
+    "skills": "Skills"
   },
   "valiadation": {
     "required": "Required field",
@@ -16,7 +17,7 @@
   "experience": {
     "title": "Experience:",
     "addExperience": "Add experience",
-    "generalInformation": "General information",
+    "generalInformation": "General information:",
     "position": "Position",
     "teamSize": "Team size",
     "description": "Project Description",
@@ -41,9 +42,31 @@
     "skill": "Skill",
     "experienceYears": "Experience, in years",
     "year": "Last year of use",
-    "groupUnderAvatar": "Group",
     "delete": "Delete",
-    "addSkill": "Add a skill",
-    "x": "Не операц"
+    "addSkill": "Add a skill"
+  },
+  "cv": {
+    "experience": {
+      "title": "Experience",
+      "teamSize": "Team size:",
+      "projectDescription": "Project Description:",
+      "achievements": "Responsibilities and achievements:",
+      "technologies": "Technologies:"
+    },
+    "mainPage": {
+      "languages": "Languages",
+      "en": "English",
+      "education": "Education",
+      "aboutDev": "About the developer",
+      "skills": "Skills"
+    },
+    "skillsPage": {
+      "title": "Professional skills",
+      "skills": "Skills",
+      "level": "Level",
+      "experienceYears": "Experience, in years",
+      "year": "Last year of use"
+    },
+    "downloadPdf": "Download PDF"
   }
 }

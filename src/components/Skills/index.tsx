@@ -29,7 +29,7 @@ export function Skills() {
       <Typography variant="h2" mb={2} sx={{ fontSize: "2rem" }}>
         {t("skills.title")}
       </Typography>
-      <Stack spacing={2} mb={2}>
+      <Stack>
         {skills.map(({ id }) => {
           return (
             <SkillForm

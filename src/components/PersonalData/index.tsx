@@ -92,7 +92,7 @@ export const PersonalData = () => {
           errors={errors}
           control={control}
           multiline={true}
-          maxRows={10}
+          maxRows={6}
         />
         <TextInput
           name="skills"
@@ -101,7 +101,7 @@ export const PersonalData = () => {
           errors={errors}
           control={control}
           multiline={true}
-          maxRows={6}
+          maxRows={4}
         />
       </Stack>
     </form>

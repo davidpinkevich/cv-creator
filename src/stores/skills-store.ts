@@ -2,12 +2,12 @@ import { makeAutoObservable } from "mobx";
 
 import { type SkillsType } from "../components/Skills/types";
 
-type ExperienceStoreType = {
+export type SkillsStoreType = {
   [key: string]: SkillsType;
 };
 
 class SkillsStore {
-  dataSkills: ExperienceStoreType = {};
+  dataSkills: SkillsStoreType = {};
 
   constructor() {
     makeAutoObservable(this);

@@ -27,7 +27,6 @@ export function ButtonToggle() {
       value={alignment}
       exclusive
       onChange={handleChange}
-      sx={{ position: "absolute", top: "20px", right: "20px" }}
     >
       <ToggleButton sx={{ width: "80px" }} value="en">
         En

@@ -62,7 +62,7 @@ function Form({
       <form onSubmit={handleSubmit(onSubmit)}>
         <Paper
           style={{
-            padding: 20,
+            padding: "0 1rem",
             marginBottom: "1rem",
             backgroundColor: "#FAFAFA",
           }}
@@ -92,7 +92,7 @@ function Form({
               label={t("experience.description")}
               variant="outlined"
               multiline
-              maxRows={10}
+              maxRows={6}
               errors={errors}
               control={control}
             />
@@ -101,7 +101,7 @@ function Form({
               label={t("experience.responsibilities")}
               variant="outlined"
               multiline
-              maxRows={10}
+              maxRows={6}
               errors={errors}
               control={control}
             />
@@ -110,7 +110,7 @@ function Form({
               label={t("experience.technologies")}
               variant="outlined"
               multiline
-              maxRows={10}
+              maxRows={4}
               errors={errors}
               control={control}
             />

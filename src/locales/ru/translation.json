@@ -6,7 +6,8 @@
     "position": "Позиция",
     "level": "Уровень английского",
     "education": "Образование",
-    "about": "О разработчике"
+    "about": "О разработчике",
+    "skills": "Навыки"
   },
   "valiadation": {
     "required": "Обязательное поле",
@@ -16,7 +17,7 @@
   "experience": {
     "title": "Опыт:",
     "addExperience": "Добавить опыт",
-    "generalInformation": "Общая информация",
+    "generalInformation": "Общая информация:",
     "position": "Позиция",
     "teamSize": "Размер команды",
     "description": "Описание проекта",
@@ -41,9 +42,31 @@
     "skill": "Навык",
     "experienceYears": "Опыт, в годах",
     "year": "Последний год использования",
-    "groupUnderAvatar": "Группа",
     "delete": "Удалить",
     "addSkill": "Добавить навык"
   },
-  "x": "Операц"
+  "cv": {
+    "experience": {
+      "title": "Опыт",
+      "teamSize": "Размер команды:",
+      "projectDescription": "Описание проекта:",
+      "achievements": "Обязанности и достижения:",
+      "technologies": "Технологии:"
+    },
+    "mainPage": {
+      "languages": "Языки",
+      "en": "Английский",
+      "education": "Образование",
+      "aboutDev": "О разработчике",
+      "skills": "Навыки"
+    },
+    "skillsPage": {
+      "title": "Профессиональные навыки",
+      "skills": "Навыки",
+      "level": "Уровень",
+      "experienceYears": "Опыт, в годах",
+      "year": "Последний год использования"
+    },
+    "downloadPdf": "Скачать PDF"
+  }
 }

@@ -25,7 +25,6 @@ function Form({
   deleteSkillForm,
 }: SkillFormProps) {
   const { t, i18n } = useTranslation();
-  console.log("RENDER FORM", id);
 
   const { updateSkills, deleteSkillTable } = skillsDataStore;
 
@@ -70,8 +69,7 @@ function Form({
       <form onSubmit={handleSubmit(onSubmit)}>
         <Paper
           style={{
-            padding: 20,
-            marginBottom: "1rem",
+            padding: "0 1rem",
             backgroundColor: "#FAFAFA",
           }}
           variant="outlined"
@@ -102,7 +100,7 @@ function Form({
               </Box>
             </Stack>
             <Stack direction="row" spacing={2} mb={2} mt={2}>
-              <Box sx={{ width: "38%" }}>
+              <Box>
                 <Select
                   name="level"
                   size="small"
@@ -112,7 +110,7 @@ function Form({
                   value={[t("skills.level.medium"), t("skills.level.advanced")]}
                 />
               </Box>
-              <Box sx={{ width: "20%" }}>
+              <Box>
                 <TextInput
                   name="experienceYears"
                   size="small"
@@ -123,7 +121,7 @@ function Form({
                   control={control}
                 />
               </Box>
-              <Box sx={{ width: "25%" }}>
+              <Box>
                 <DatePicker
                   control={control}
                   errors={errors}
