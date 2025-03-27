@@ -1,10 +1,10 @@
 export type ExperienceType = {
   achievements: string;
-  end?: Date;
+  end?: object;
   isCurrent?: boolean;
   position: string;
   project: string;
-  start?: Date;
+  start?: object;
   teamSize: string;
   technologies: string;
 };

@@ -21,12 +21,13 @@ import { validatoinShema } from "./validatoinShema";
 function Form({
   id,
   withAddSkillBtn,
-  addNewSkill,
-  deleteSkill,
+  addNewSkillForm,
+  deleteSkillForm,
 }: SkillFormProps) {
   const { t, i18n } = useTranslation();
+  console.log("RENDER FORM", id);
 
-  const { updateSkills } = skillsDataStore;
+  const { updateSkills, deleteSkillTable } = skillsDataStore;
 
   const skillGroups = i18n.language === "ru" ? skillGroupsRu : skillGroupsEn;
   const skills = i18n.language === "ru" ? skillsRu : skillsEn;
@@ -44,7 +45,6 @@ function Form({
       skill: "",
       level: t("skills.level.advanced"),
       experienceYears: "",
-      groupUnderAvatar: "",
       year: dayjs(),
     },
     mode: "onSubmit",
@@ -57,7 +57,12 @@ function Form({
   }, [watch(), id]);
 
   const onSubmit = () => {
-    if (isValid) addNewSkill();
+    if (isValid) addNewSkillForm();
+  };
+
+  const handleDelete = () => {
+    deleteSkillForm();
+    deleteSkillTable(id);
   };
 
   return (
@@ -128,20 +133,9 @@ function Form({
                   name="year"
                 />
               </Box>
-              <Box sx={{ width: "20%" }}>
-                <TextInput
-                  name="groupUnderAvatar"
-                  size="small"
-                  label={t("skills.groupUnderAvatar")}
-                  variant="outlined"
-                  type="number"
-                  errors={errors}
-                  control={control}
-                />
-              </Box>
             </Stack>
             <Stack direction="row" spacing={2} mb={2} mt={2}>
-              <ButtonDelete size="medium" handleClick={deleteSkill}>
+              <ButtonDelete size="medium" handleClick={handleDelete}>
                 {t("skills.delete")}
               </ButtonDelete>
               {withAddSkillBtn && (

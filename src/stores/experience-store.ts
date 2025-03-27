@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 import { type ExperienceType } from "../components/Experience/types";
 
-type ExperienceStoreType = {
+export type ExperienceStoreType = {
   [key: string]: ExperienceType;
 };
 
@@ -15,6 +15,15 @@ class ExperienceStore {
 
   updateExperience = (obj: ExperienceType, key: string) => {
     this.dataExperience[key] = obj;
+  };
+
+  deleteExperienceTable = (key: string) => {
+    if (
+      key in this.dataExperience &&
+      Object.keys(this.dataExperience).length > 1
+    ) {
+      delete this.dataExperience[key];
+    }
   };
 }
 

@@ -10,7 +10,7 @@ export function Skills() {
 
   const { t } = useTranslation();
 
-  const addNewSkill = () => {
+  const addNewSkillForm = () => {
     const newForm = {
       id: uuidv4(),
     };
@@ -18,7 +18,7 @@ export function Skills() {
     setSkills([...skills, newForm]);
   };
 
-  const deleteSkill = (id: string) => () => {
+  const deleteSkillForm = (id: string) => () => {
     const newProjects = [...skills].filter((item) => item.id !== id);
 
     if (skills.length > 1) setSkills(newProjects);
@@ -36,8 +36,8 @@ export function Skills() {
               key={id}
               id={id}
               withAddSkillBtn={id === skills[skills.length - 1].id}
-              addNewSkill={addNewSkill}
-              deleteSkill={deleteSkill(id)}
+              addNewSkillForm={addNewSkillForm}
+              deleteSkillForm={deleteSkillForm(id)}
             />
           );
         })}

@@ -7,7 +7,6 @@ import { skillGroupsMapping } from "../constants/skill-groups-mapping";
 import { translate } from "../helpers/translate";
 
 type FormValues = {
-  groupUnderAvatar?: string | undefined;
   groups: string;
   skill: string;
   experienceYears: string;

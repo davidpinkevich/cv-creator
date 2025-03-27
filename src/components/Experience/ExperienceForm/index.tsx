@@ -20,7 +20,7 @@ function Form({
   deleteProject,
 }: ExperienceFormProps) {
   const { t } = useTranslation();
-  const { updateExperience } = experienceDataStore;
+  const { updateExperience, deleteExperienceTable } = experienceDataStore;
 
   const {
     watch,
@@ -50,6 +50,11 @@ function Form({
 
   const onSubmit = () => {
     if (isValid) addNewProject();
+  };
+
+  const handleDelete = () => {
+    deleteProject();
+    deleteExperienceTable(id);
   };
 
   return (
@@ -136,7 +141,7 @@ function Form({
               label={t("experience.time.current")}
             />
           </Stack>
-          <ButtonDelete handleClick={deleteProject}>
+          <ButtonDelete handleClick={handleDelete}>
             {t("experience.delete")}
           </ButtonDelete>
         </Paper>

@@ -28,6 +28,7 @@ export const PersonalData = () => {
       education: "",
       about: "",
       level: "B1",
+      skills: "",
     },
     mode: "onTouched",
   });
@@ -92,6 +93,15 @@ export const PersonalData = () => {
           control={control}
           multiline={true}
           maxRows={10}
+        />
+        <TextInput
+          name="skills"
+          label={t("personal.skills")}
+          variant="outlined"
+          errors={errors}
+          control={control}
+          multiline={true}
+          maxRows={6}
         />
       </Stack>
     </form>

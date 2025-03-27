@@ -14,5 +14,4 @@ export const validatoinShema = (t: TFunction) =>
       .test("is-dayjs", (value) => dayjs.isDayjs(value) && value.isValid())
       .required(t("valiadation.required")),
     experienceYears: yup.string().required(t("valiadation.required")),
-    groupUnderAvatar: yup.string(),
   });

@@ -9,17 +9,15 @@ export const validatoinShema = (t: TFunction) =>
       .string()
       .required(t("valiadation.required"))
       .min(3, t("valiadation.lengthThreeItems"))
-      .matches(
-        /^[A-Z][a-z]{2}/,
-        "The first letter must be uppercase, followed by two lowercase letters"
-      ),
+      .matches(/^[A-ZА-Я][a-zа-я]{2}/, t("valiadation.firstLetterUpper")),
     secondName: yup
       .string()
       .required(t("valiadation.required"))
       .min(3, t("valiadation.lengthThreeItems"))
-      .matches(/^[A-Z][a-z]{2}/, t("valiadation.firstLetterUpper")),
+      .matches(/^[A-ZА-Я][a-zа-я]{2}/, t("valiadation.firstLetterUpper")),
     position: yup.string().required(t("valiadation.required")),
     about: yup.string().required(t("valiadation.required")),
     level: yup.string().required(t("valiadation.required")),
     education: yup.string().required(t("valiadation.required")),
+    skills: yup.string().required(t("valiadation.required")),
   });

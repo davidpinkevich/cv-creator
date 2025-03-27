@@ -5,4 +5,5 @@ export type PersonalDataFormType = {
   education: string;
   about: string;
   level: string;
+  skills: string;
 };

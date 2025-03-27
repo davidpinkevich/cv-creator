@@ -1,6 +1,5 @@
 export type SkillsType = {
   experienceYears: string;
-  groupUnderAvatar?: string;
   groups: string;
   level: string;
   skill: string;
