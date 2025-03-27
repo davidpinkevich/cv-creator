@@ -13,7 +13,7 @@ export function Select<FormValues extends FieldValues>({
   control,
   label,
   name,
-  size = "medium",
+  size = "small",
   variant,
   value,
 }: SelectProps<FormValues>) {

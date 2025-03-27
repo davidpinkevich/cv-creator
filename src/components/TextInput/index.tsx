@@ -13,7 +13,7 @@ export function TextInput<FormValues extends FieldValues>({
   multiline,
   maxRows,
   type = "text",
-  size = "medium",
+  size = "small",
 }: TextInputProps<FormValues>) {
   return (
     <Controller
