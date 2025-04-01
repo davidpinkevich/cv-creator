@@ -1,14 +1,13 @@
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { type Dayjs } from "dayjs";
 import {
   Document,
-  ImageRun,
   Packer,
   Paragraph,
   Table,
   TableCell,
   TableRow,
-  TextRun,
   WidthType,
 } from "docx";
 import { saveAs } from "file-saver";
@@ -18,12 +17,16 @@ import { observer } from "mobx-react-lite";
 import { Box, Stack } from "@mui/material";
 
 import avatar from "../../assets/images/avatar.png";
-import { createListItemsString } from "../../helpers/create-list-items-string";
+import { createExperienceSectionDocx } from "../../helpers/create-experience-section-docx";
+import { createMainPageDocx } from "../../helpers/create-main-page-docx";
+import { createTableRows } from "../../helpers/create-table-rows";
 import { experiencesForPage } from "../../helpers/experiences-for-page";
-import { getDate } from "../../helpers/get-date";
+import { getBase64Image } from "../../helpers/get-base64-image";
 import { experienceDataStore } from "../../stores/experience-store";
 import { personalDataStore } from "../../stores/personal-data-store";
+import { skillsDataStore } from "../../stores/skills-store";
 import { ButtonAdd } from "../ButtonAdd";
+import { type SkillsType } from "../Skills/types";
 import { ExperiencesPage } from "./ExperiencesPage";
 import { MainPage } from "./MainPage";
 import { SkillsPage } from "./SkillsPage";
@@ -36,21 +39,90 @@ export const Preview = observer(() => {
   const skillsPageRef = useRef<HTMLDivElement>(null);
 
   const { dataExperience } = experienceDataStore;
-  const {
-    personalData: {
-      firstName,
-      secondName,
-      skills,
-      about,
-      level,
-      education,
-      position,
-    },
-  } = personalDataStore;
+  const { personalData } = personalDataStore;
+  const { dataSkills } = skillsDataStore;
 
   const experiences = Object.entries(dataExperience);
 
   const experiencesPages = experiencesForPage(experiences, 2);
+
+  const tableRows = createTableRows(dataSkills);
+
+  // Функция для создания таблицы навыков
+  const createSkillsTable = (tableRows: [string, SkillsType[]][]) => {
+    const rows = [];
+
+    // Заголовки таблицы
+    rows.push(
+      new TableRow({
+        children: [
+          new TableCell({
+            children: [new Paragraph("Навыки")],
+            width: { size: 3000, type: WidthType.DXA },
+          }),
+          new TableCell({
+            children: [new Paragraph("Уровень")],
+            width: { size: 2000, type: WidthType.DXA },
+          }),
+          new TableCell({
+            children: [new Paragraph("Опыт")],
+            width: { size: 2000, type: WidthType.DXA },
+          }),
+          new TableCell({
+            children: [new Paragraph("Год")],
+            width: { size: 3000, type: WidthType.DXA },
+          }),
+        ],
+      })
+    );
+
+    // Добавляем строки с данными
+    tableRows.forEach(([groupName, skills]) => {
+      rows.push(
+        new TableRow({
+          children: [
+            new TableCell({
+              children: [new Paragraph(groupName)],
+              columnSpan: 4,
+              shading: {
+                fill: "#EFEFEF",
+              },
+            }),
+          ],
+        })
+      );
+
+      skills.forEach((skill) => {
+        rows.push(
+          new TableRow({
+            children: [
+              new TableCell({ children: [new Paragraph(skill.skill)] }),
+              new TableCell({ children: [new Paragraph(skill.level)] }),
+              new TableCell({
+                children: [new Paragraph(skill.experienceYears + " года")],
+              }),
+              new TableCell({
+                children: [new Paragraph(String((skill.year as Dayjs).year()))],
+              }),
+            ],
+          })
+        );
+      });
+    });
+
+    return new Table({
+      rows,
+      width: { size: 10000, type: WidthType.DXA },
+      borders: {
+        top: { style: "single", size: 1, color: "000000" },
+        bottom: { style: "single", size: 1, color: "000000" },
+        left: { style: "single", size: 1, color: "000000" },
+        right: { style: "single", size: 1, color: "000000" },
+        insideHorizontal: { style: "single", size: 1, color: "000000" },
+        insideVertical: { style: "single", size: 1, color: "000000" },
+      },
+    });
+  };
 
   const handleDownloadPdf = () => {
     const pdf = new jsPDF({
@@ -68,7 +140,7 @@ export const Preview = observer(() => {
 
     const processPage = (index: number) => {
       if (index >= allRefs.length) {
-        pdf.save(`${firstName} ${secondName[0]}.pdf`);
+        pdf.save(`${personalData.firstName} ${personalData.secondName[0]}.pdf`);
         return;
       }
 
@@ -97,485 +169,47 @@ export const Preview = observer(() => {
     processPage(0);
   };
 
-  const getBase64Image = (url: string): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = "Anonymous";
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) {
-          reject(new Error("Failed to get canvas context"));
-          return;
-        }
-        ctx.drawImage(img, 0, 0);
-        const dataURL = canvas.toDataURL("image/png");
-        resolve(dataURL.split(",")[1]);
-      };
-      img.onerror = reject;
-      img.src = url;
-    });
-  };
-
-  function createParagraphs(text: string) {
-    return text.split("\n").map(
-      (paragraphText) =>
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: paragraphText.trim(),
-              font: "Calibri",
-              size: 22,
-              color: "#878787",
-            }),
-          ],
-          alignment: "both",
-          wordWrap: true,
-        })
-    );
-  }
-
-  const handleDownloadWordx = async () => {
+  const handleDownloadDocx = async () => {
     try {
-      const logoBase64 = await getBase64Image(avatar);
+      const avatarBase64 = await getBase64Image(avatar);
 
-      const table = new Table({
-        rows: [
-          new TableRow({
-            height: {
-              value: "842pt",
-              rule: "auto",
+      const mainPage = createMainPageDocx(
+        avatarBase64,
+        i18n.language,
+        t("cv.experience.teamSize"),
+        t("cv.experience.projectDescription"),
+        t("cv.experience.achievements"),
+        t("cv.experience.technologies"),
+        experiences[0][1],
+        personalData
+      );
+
+      const experiencePages = experiencesPages.map((page) => {
+        return {
+          properties: {
+            page: {
+              margin: {
+                top: 360,
+                bottom: 360,
+                left: 360,
+                right: 360,
+              },
             },
-            children: [
-              new TableCell({
-                width: {
-                  size: 25,
-                  type: WidthType.PERCENTAGE,
-                },
-                shading: {
-                  fill: "#2C3144",
-                },
-                margins: {
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                },
-                children: [
-                  new Table({
-                    rows: [
-                      new TableRow({
-                        children: [
-                          new TableCell({
-                            width: {
-                              size: 1500,
-                              type: WidthType.DXA,
-                            },
-                            children: [
-                              new Paragraph({
-                                children: [
-                                  new ImageRun({
-                                    type: "png",
-                                    data: logoBase64,
-                                    transformation: {
-                                      width: 150,
-                                      height: 150,
-                                    },
-                                  }),
-                                ],
-                                alignment: "center",
-                              }),
-                            ],
-                          }),
-                          new TableCell({
-                            width: {
-                              size: 3539,
-                              type: WidthType.DXA,
-                            },
-                            children: [
-                              new Paragraph({
-                                children: [
-                                  new TextRun({
-                                    text: `${firstName} ${secondName[0]}.`,
-                                    font: "Calibri",
-                                    bold: true,
-                                    size: 28,
-                                  }),
-                                ],
-                                alignment: "left",
-                              }),
-                              new Paragraph({
-                                children: [
-                                  new TextRun({
-                                    text: position,
-                                    font: "Calibri",
-                                    size: 24,
-                                    color: "#C3C2C2",
-                                  }),
-                                ],
-                                spacing: {
-                                  before: 60,
-                                },
-                                alignment: "left",
-                              }),
-                            ],
-                          }),
-                        ],
-                      }),
-                    ],
-                    width: {
-                      size: 4039,
-                      type: WidthType.DXA,
-                    },
-                    borders: {
-                      top: { style: "none", size: 0, color: "FFFFFF" },
-                      bottom: { style: "none", size: 0, color: "FFFFFF" },
-                      left: { style: "none", size: 0, color: "FFFFFF" },
-                      right: { style: "none", size: 0, color: "FFFFFF" },
-                      insideHorizontal: {
-                        style: "none",
-                        size: 0,
-                        color: "FFFFFF",
-                      },
-                      insideVertical: {
-                        style: "none",
-                        size: 0,
-                        color: "FFFFFF",
-                      },
-                    },
-                  }),
-                  // Заголовок "Навыки"
-                  new Paragraph({
-                    indent: {
-                      left: 240,
-                    },
-                    children: [
-                      new TextRun({
-                        text: "Навыки",
-                        font: "Calibri",
-                        size: 28,
-                        color: "FFFFFF",
-                      }),
-                    ],
-                    spacing: {
-                      before: 180,
-                    },
-                    alignment: "left",
-                  }),
-                  ...createListItemsString(skills, "skills").map(
-                    (skill) =>
-                      new Paragraph({
-                        indent: {
-                          left: 240,
-                        },
-                        children: [
-                          new TextRun({
-                            text: "• ",
-                            font: "Symbol",
-                            size: 24,
-                            color: "#C3C2C2",
-                          }),
-                          new TextRun({
-                            text: skill,
-                            font: "Calibri",
-                            size: 24,
-                            color: "#C3C2C2",
-                          }),
-                        ],
-                        alignment: "left",
-                      })
-                  ),
-                  // заголовок Языки
-                  new Paragraph({
-                    indent: {
-                      left: 240,
-                    },
-                    children: [
-                      new TextRun({
-                        text: "Языки",
-                        font: "Calibri",
-                        size: 28,
-                        color: "FFFFFF",
-                      }),
-                    ],
-                    spacing: {
-                      before: 180,
-                    },
-                    alignment: "left",
-                  }),
-                  new Paragraph({
-                    indent: {
-                      left: 240,
-                    },
-                    children: [
-                      new TextRun({
-                        text: `Английский ${level}`,
-                        font: "Calibri",
-                        size: 24,
-                        color: "#C3C2C2",
-                      }),
-                    ],
-                    spacing: {
-                      after: 180,
-                    },
-                    alignment: "left",
-                  }),
-                  // заголовок Образование
-                  new Paragraph({
-                    indent: {
-                      left: 240,
-                    },
-                    children: [
-                      new TextRun({
-                        text: "Образование",
-                        font: "Calibri",
-                        size: 28,
-                        color: "FFFFFF",
-                      }),
-                    ],
-                    alignment: "left",
-                  }),
-                  new Paragraph({
-                    indent: {
-                      left: 240,
-                    },
-                    children: [
-                      new TextRun({
-                        text: education,
-                        font: "Calibri",
-                        size: 24,
-                        color: "#C3C2C2",
-                      }),
-                    ],
-                    spacing: {
-                      after: 180,
-                    },
-                    alignment: "left",
-                  }),
-                ],
-              }),
-              // правая колонка
-              new TableCell({
-                width: {
-                  size: 75,
-                  type: WidthType.PERCENTAGE,
-                },
-                margins: {
-                  top: 240,
-                  bottom: 240,
-                  left: 240,
-                  right: 540,
-                },
-                children: [
-                  new Paragraph({
-                    children: [
-                      new TextRun({
-                        text: "О разработчике",
-                        font: "Calibri",
-                        size: 28,
-                        bold: true,
-                        color: "#878787",
-                      }),
-                    ],
-                    alignment: "left",
-                  }),
-                  // Гор. линия серая
-                  new Paragraph({
-                    children: [
-                      new TextRun({
-                        text: ".",
-                        font: "Calibri",
-                        color: "#D9D9D9",
-                        size: 8,
-                      }),
-                    ],
-                    shading: {
-                      fill: "#D9D9D9",
-                    },
-                    spacing: {
-                      before: 60,
-                      after: 60,
-                    },
-                  }),
-                  ...createParagraphs(about),
-                  // заголовок Опыт
-                  new Paragraph({
-                    children: [
-                      new TextRun({
-                        text: "Опыт",
-                        font: "Calibri",
-                        size: 28,
-                        bold: true,
-                        color: "#878787",
-                      }),
-                    ],
-                    alignment: "left",
-                  }),
-                  // Горизонтальная линия серого цвета
-                  new Paragraph({
-                    children: [
-                      new TextRun({
-                        text: ".",
-                        font: "Calibri",
-                        color: "#D9D9D9",
-                        size: 8,
-                      }),
-                    ],
-                    shading: {
-                      fill: "#D9D9D9",
-                    },
-                    spacing: {
-                      before: 60,
-                      after: 60,
-                    },
-                  }),
-                  // общий блок для каждого нового Опыта
-                  // Позиция и время начала/конца
-                  new Paragraph({
-                    children: [
-                      new TextRun({
-                        text: experiences[0][1].position + " | ",
-                        font: "Calibri",
-                        size: 22,
-                        bold: true,
-                      }),
-                      new TextRun({
-                        text: getDate(
-                          i18n.language,
-                          experiences[0][1].isCurrent,
-                          experiences[0][1].start,
-                          experiences[0][1].end
-                        ),
-                        font: "Calibri",
-                        size: 22,
-                      }),
-                    ],
-                    alignment: "left",
-                    spacing: {
-                      after: 180,
-                    },
-                  }),
-                  // Размер команды
-                  new Paragraph({
-                    children: [
-                      new TextRun({
-                        text: "Размер команды: ",
-                        font: "Calibri",
-                        size: 22,
-                        bold: true,
-                      }),
-                      new TextRun({
-                        text: experiences[0][1].teamSize,
-                        font: "Calibri",
-                        size: 22,
-                      }),
-                    ],
-                    alignment: "left",
-                    spacing: {
-                      after: 180,
-                    },
-                  }),
-                  // Описание проекта
-                  new Paragraph({
-                    children: [
-                      new TextRun({
-                        text: "Описание проекта:",
-                        font: "Calibri",
-                        size: 22,
-                        bold: true,
-                      }),
-                    ],
-                    alignment: "left",
-                  }),
-                  ...createParagraphs(experiences[0][1].project),
-                  // Заголовок "Обязанности и достижения"
-                  new Paragraph({
-                    children: [
-                      new TextRun({
-                        text: "Обязанности и достижения:",
-                        font: "Calibri",
-                        size: 22,
-                        bold: true,
-                      }),
-                    ],
-                    spacing: {
-                      before: 180,
-                    },
-                    alignment: "left",
-                  }),
-                  ...createListItemsString(
-                    experiences[0][1].achievements,
-                    "achievements"
-                  ).map(
-                    (skill) =>
-                      new Paragraph({
-                        children: [
-                          new TextRun({
-                            text: "• " + skill,
-                            font: "Calibri",
-                            color: "#8A9090",
-                            size: 22,
-                          }),
-                        ],
-                        alignment: "both",
-                        spacing: {
-                          line: 300,
-                        },
-                        wordWrap: true,
-                      })
-                  ),
-                  // Технологии
-                  new Paragraph({
-                    children: [
-                      new TextRun({
-                        text: "Технологии:",
-                        font: "Calibri",
-                        size: 22,
-                        bold: true,
-                      }),
-                    ],
-                    alignment: "left",
-                  }),
-                  new Paragraph({
-                    children: [
-                      new TextRun({
-                        text: experiences[0][1].technologies,
-                        font: "Calibri",
-                        color: "#8A9090",
-                        size: 22,
-                      }),
-                    ],
-                    spacing: {
-                      before: 180,
-                    },
-                    alignment: "left",
-                  }),
-                ],
-              }),
-            ],
+          },
+          children: page.flatMap((experience) => {
+            return createExperienceSectionDocx(
+              experience[1],
+              i18n.language,
+              t("cv.experience.teamSize"),
+              t("cv.experience.projectDescription"),
+              t("cv.experience.achievements"),
+              t("cv.experience.technologies")
+            );
           }),
-        ],
-        width: {
-          size: 12240,
-          type: WidthType.DXA,
-        },
-        borders: {
-          top: { style: "none", size: 0, color: "FFFFFF" },
-          bottom: { style: "none", size: 0, color: "FFFFFF" },
-          left: { style: "none", size: 0, color: "FFFFFF" },
-          right: { style: "none", size: 0, color: "FFFFFF" },
-          insideHorizontal: { style: "none", size: 0, color: "FFFFFF" },
-          insideVertical: { style: "none", size: 0, color: "FFFFFF" },
-        },
-        margins: {
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-        },
+        };
       });
+
+      const skillsTable = createSkillsTable(tableRows);
 
       const doc = new Document({
         sections: [
@@ -586,18 +220,34 @@ export const Preview = observer(() => {
                   top: 0,
                   bottom: 0,
                   left: 0,
-                  right: 20,
+                  right: 0,
                 },
               },
             },
-            children: [table],
+            children: [mainPage],
+          },
+          ...experiencePages,
+          {
+            properties: {
+              page: {
+                margin: {
+                  top: 360,
+                  bottom: 360,
+                  left: 360,
+                  right: 360,
+                },
+              },
+            },
+            children: [skillsTable],
           },
         ],
       });
 
-      // Генерация DOCX
       Packer.toBlob(doc).then((blob) => {
-        saveAs(blob, `${firstName} ${secondName[0]}.docx`);
+        saveAs(
+          blob,
+          `${personalData.firstName} ${personalData.secondName[0]}.docx`
+        );
       });
     } catch (error) {
       console.error("Ошибка при создании DOCX:", error);
@@ -626,16 +276,16 @@ export const Preview = observer(() => {
           <SkillsPage />
         </Box>
         <ButtonAdd
-          disabled={!firstName && !secondName}
+          disabled={!personalData.firstName && !personalData.secondName}
           handleClick={handleDownloadPdf}
         >
           {t("cv.downloadPdf")}
         </ButtonAdd>
         <ButtonAdd
-          disabled={!firstName && !secondName}
-          handleClick={handleDownloadWordx}
+          disabled={!personalData.firstName && !personalData.secondName}
+          handleClick={handleDownloadDocx}
         >
-          Скачать DOCX
+          {t("cv.downloadDocx")}
         </ButtonAdd>
       </Stack>
     </>

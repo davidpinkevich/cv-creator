@@ -22,6 +22,8 @@ export const SkillsPage = observer(() => {
 
   const tableRows = createTableRows(dataSkills);
 
+  console.log("tableRows: ", tableRows);
+
   return (
     <Box sx={{ ...stylesPage, padding: "20px" }}>
       <Typography color="#878787" fsz={14} fw={700}>

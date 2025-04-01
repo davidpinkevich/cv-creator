@@ -67,6 +67,7 @@
       "experienceYears": "Experience, in years",
       "year": "Last year of use"
     },
-    "downloadPdf": "Download PDF"
+    "downloadPdf": "Download PDF",
+    "downloadDocx": "Download DOCX"
   }
 }

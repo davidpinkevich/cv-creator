@@ -67,6 +67,7 @@
       "experienceYears": "Опыт, в годах",
       "year": "Последний год использования"
     },
-    "downloadPdf": "Скачать PDF"
+    "downloadPdf": "Скачать PDF",
+    "downloadDocx": "Скачать DOCX"
   }
 }
