@@ -63,6 +63,12 @@ export function BlockExperience({
           {experience && experience.technologies}
         </Typography>
       </Box>
+      <Box
+        sx={{
+          backgroundColor: "#D9D9D9",
+          height: "2px",
+        }}
+      />
     </Stack>
   );
 }
